@@ -1,4 +1,4 @@
-# blocker-scb
+# Pure Javascript page blocker or spinner
 <p>Page blocker and spinner is created whenever you want, if you are making an ajax call or reading data from file, you can use blocker to block page or element to prevent unwanted interaction</p>
 
 <p><b>To install:</b></p>

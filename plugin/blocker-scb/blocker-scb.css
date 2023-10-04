@@ -1,0 +1,24 @@
+.blockOverlay {
+  z-index: 99;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  background-color: rgba(85, 85, 85,0.4);
+  cursor: wait;
+  position: absolute;
+}
+
+.blockMsg {
+  /* z-index: 10;*/
+  text-align: center;
+  color: rgb(0, 0, 0);
+  border: 0px;
+  cursor: wait;
+  opacity: 1;
+  max-width: 150px;
+}
+
+.blockMsgForFullBody {
+  position: fixed;
+  top: 50%;
+}

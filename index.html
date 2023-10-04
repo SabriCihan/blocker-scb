@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Blocker-Scb</title>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="plugin/blocker-scb/blocker-scb.css" rel="stylesheet">
+
+</head>
+
+<body class="p-5">
+  <h1>Blocker-Scb</h1>
+  <p>You don't have to implement big libraries, keep it simple and clean, if you have bootstrap and using vanilla javascript (pure javascript) you are ready to go</p>
+  <div class="row">
+    <div class="col">
+
+      <div class="card p-3">
+        <form id="FormLoginTest">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+        </form>
+
+        <div class="d-grid gap-2 d-md-block">
+          <button type="button" id="BlockFormButton" class="btn btn-primary">Block Content</button>
+          <button type="button" id="UnblockFormButton" class="btn btn-primary">Unblock Content</button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card p-3">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed justo sollicitudin, interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis. Vestibulum sed magna vel ipsum sodales hendrerit. Cras iaculis massa in odio varius, ac aliquet ex mattis. Pellentesque molestie dolor et nisi pretium, ut pulvinar leo pretium. Vivamus porta tellus eu tellus placerat, at sodales quam posuere. Vivamus sed nisl est. Nulla vel urna ut tellus luctus blandit sed fermentum quam. Nunc et convallis nunc
+        </p>
+        <button type="button" id="BlockWholePage" class="btn btn-primary ">Block Whole Page</button>
+
+      </div>
+    </div>
+    <div class="col-12 my-3">
+      <div class="card p-3">
+        <p class="">
+          Lorem ipsum dolor sit amet,
+          Consectetur adipiscing elit. , interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis.
+        </p>
+        <p class="text-danger">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed justo sollicitudin, interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis. Vestibulum sed magna vel ipsum sodales hendrerit. Cras iaculis massa in odio varius, ac aliquet ex mattis. Pellentesque molestie dolor et nisi pretium, ut pulvinar leo pretium. Vivamus porta tellus eu tellus placerat, at sodales quam posuere. Vivamus sed nisl est. Nulla vel urna ut tellus luctus blandit sed fermentum quam. Nunc et convallis nunc, non tincidunt libero. Suspendisse elementum varius quam, id efficitur sem dapibus et. Cras mattis metus at sapien condimentum molestie. Vestibulum pulvinar sapien sed suscipit placerat. Nunc tempus viverra arcu.
+
+          Mauris nec ligula mollis, dignissim risus ac, varius libero. Phasellus vel nisi scelerisque, vehicula metus vel, sodales felis. Sed sit amet sodales dui. Vivamus id facilisis tortor, a dictum mi. Maecenas iaculis lectus quis nunc semper gravida. Quisque sodales sapien ut hendrerit posuere. Donec interdum ante et neque vulputate viverra. Cras eget vulputate neque. Donec ultricies imperdiet augue, sodales egestas magna fermentum non.
+        </p>
+        <p class="">
+          Vestibulum sed magna vel ipsum sodales hendrerit. Cras iaculis massa in odio varius, ac aliquet ex mattis. Pellentesque molestie dolor et nisi pretium, ut pulvinar leo pretium.
+          Consectetur adipiscing elit. , interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis.
+        </p>
+        <p class="text-danger">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed justo sollicitudin, interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis. Vestibulum sed magna vel ipsum sodales hendrerit. Cras iaculis massa in odio varius, ac aliquet ex mattis. Pellentesque molestie dolor et nisi pretium, ut pulvinar leo pretium. Vivamus porta tellus eu tellus placerat, at sodales quam posuere. Vivamus sed nisl est. Nulla vel urna ut tellus luctus blandit sed fermentum quam. Nunc et convallis nunc, non tincidunt libero. Suspendisse elementum varius quam, id efficitur sem dapibus et. Cras mattis metus at sapien condimentum molestie. Vestibulum pulvinar sapien sed suscipit placerat. Nunc tempus viverra arcu.
+
+          Mauris nec ligula mollis, dignissim risus ac, varius libero. Phasellus vel nisi scelerisque, vehicula metus vel, sodales felis. Sed sit amet sodales dui. Vivamus id facilisis tortor, a dictum mi. Maecenas iaculis lectus quis nunc semper gravida. Quisque sodales sapien ut hendrerit posuere. Donec interdum ante et neque vulputate viverra. Cras eget vulputate neque. Donec ultricies imperdiet augue, sodales egestas magna fermentum non.
+          Consectetur adipiscing elit. , interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis.
+          Vivamus porta tellus eu tellus placerat, at sodales quam posuere. Vivamus sed nisl est. Nulla vel urna ut tellus luctus blandit sed fermentum quam. Nunc et convallis nunc
+          Consectetur adipiscing elit. , interdum quam nec, placerat risus. Sed ultricies purus ac orci molestie, ut tincidunt felis convallis.
+        </p>
+        <div class="d-grid gap-2 d-md-block">
+        <button type="button" id="BlockByClass" class="btn btn-primary ">Block by class</button>
+          <button type="button" id="UnblockByClass" class="btn btn-primary">Unblock</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+
+
+  <script src="plugin/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="plugin/blocker-scb/blocker-scb.js"></script>
+  <script src="index.js"></script>
+
+</body>
+
+</html>

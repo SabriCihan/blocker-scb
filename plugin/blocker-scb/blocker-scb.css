@@ -7,9 +7,7 @@
   cursor: wait;
   position: absolute;
 }
-
 .blockMsg {
-  /* z-index: 10;*/
   text-align: center;
   color: rgb(0, 0, 0);
   border: 0px;
@@ -17,7 +15,6 @@
   opacity: 1;
   max-width: 150px;
 }
-
 .blockMsgForFullBody {
   position: fixed;
   top: 50%;

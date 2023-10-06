@@ -6,9 +6,7 @@ var blockerscb = {
     let top = isRelative ? "0" : (rect.top + window.scrollY).toString() + "px";
     let spinnerWithLoadingText = '<div class="spinner-border ms-auto text-info align-middle" role="status" aria-hidden="true"></div>' +
       '<span class="mx-auto my-auto">' + ' Loading...' + '</span>';
-
     let blockAllStyleText = blockAll ? "blockMsgForFullBody" : "";
-
     let blockMsg = '<div class="blockMsg bg-light p-3 rounded ' + blockAllStyleText + '">' + spinnerWithLoadingText + '</div>';
     let overlay = '<div class="blockOverlay d-flex align-items-center justify-content-center" data-for="' + target + '" ' +
       'style="width:' + width + ';height:' + height + ';left:' + left + ';top:' + top + '">' + blockMsg + '</div>';
@@ -30,9 +28,7 @@ var blockerscb = {
       } else {
         let body = document.getElementsByTagName("body");
         body[0].insertAdjacentHTML('beforeend', overlay);
-
       }
-
     }
   },
   unblock: function (target) {
@@ -45,7 +41,6 @@ var blockerscb = {
           el.remove();
         });
       }
-
     } else {
       let element = document.getElementsByTagName("body");
       let overlays = element[0].querySelectorAll(".blockOverlay");
@@ -54,7 +49,6 @@ var blockerscb = {
           el.remove();
         });
       }
-     
     }
   },
 }

@@ -1,22 +1,44 @@
 var blockerscb = {
-    generateFullPageOverlay: function () {
-        let width =  "100%" ;
-        let height = "100%"  ;
-        let left =  "0"  ;
-        let top = "0";
-        let spinnerWithLoadingText = '<div class="spinner-border ms-auto text-info align-middle" role="status" aria-hidden="true"></div>' +
-            '<span class="mx-auto my-auto">' + ' Loading...' + '</span>';
-        let blockMsg = '<div class="blockMsg bg-light p-3 rounded ">' + spinnerWithLoadingText + '</div>';
+    generateBlockMsg: function () {
+        let blockMsg = document.createElement('div');
+        blockMsg.className = 'blockMsg bg-light p-3 rounded';
         blockMsg.style.textAlign = "center";
         blockMsg.style.color = "rgb(0, 0, 0)";
         blockMsg.style.border = "0px";
         blockMsg.style.cursor = "wait";
         blockMsg.style.opacity = 1;
         blockMsg.style.maxWidth = "150px";
-        let overlay = '<div class="blockOverlay d-flex align-items-center justify-content-center" data-for="' + "body" + '" ' +
-            'style="width:' + width + ';height:' + height + ';left:' + left + ';top:' + top + '; position:' +  "fixed" + '; z-index: 1100;' +
-            'border: none;margin: 0px;padding: 0px;background-color: rgba(185, 185, 185, 0.4);cursor: wait; ">' + blockMsg + '</div>';
-        return overlay;
+
+        const spinnerDiv = document.createElement('div');
+        spinnerDiv.classList.add('spinner-border', 'ms-auto', 'text-info', 'align-middle','me-2');
+        spinnerDiv.setAttribute('role', 'status');
+        spinnerDiv.setAttribute('aria-hidden', 'true');
+
+        const textSpan = document.createElement('span');
+        textSpan.classList.add('mx-auto', 'my-auto');
+        textSpan.textContent = 'Loading...';
+        blockMsg.appendChild(spinnerDiv);
+        blockMsg.appendChild(textSpan);
+        return blockMsg;
+    },
+    generateFullPageOverlay: function () {
+        var blockMsg = this.generateBlockMsg();
+        const overlayDiv = document.createElement('div');
+        overlayDiv.classList.add('blockOverlay', 'd-flex', 'align-items-center', 'justify-content-center');
+        overlayDiv.dataset.for = "body";
+        overlayDiv.style.width = '100%';
+        overlayDiv.style.height = '100%';
+        overlayDiv.style.left = '0';
+        overlayDiv.style.top = '0';
+        overlayDiv.style.position = 'fixed';
+        overlayDiv.style.zIndex = 1100;
+        overlayDiv.style.border = 'none';
+        overlayDiv.style.margin = '0px';
+        overlayDiv.style.padding = '0px';
+        overlayDiv.style.backgroundColor = 'rgba(185, 185, 185, 0.4)';
+        overlayDiv.style.cursor = 'wait';
+        overlayDiv.appendChild(blockMsg);
+        return overlayDiv;
     },
     block: function (target) {
         let isTargetExist = target != null;
@@ -29,21 +51,20 @@ var blockerscb = {
                 } else if (position == "static" && isTargetExist) {
                     var wrapperDiv = document.createElement('div');
                     wrapperDiv.style.position = 'relative';
+                    wrapperDiv.dataset.for = target;
                     var contentDiv = elements[i];
-                   
+
                     var overlayDiv = blockerscb.prepareTargetOverlay();
                     overlayDiv.dataset.for = target;
                     // I am wrapping the content div with the new wrapper div
                     contentDiv.parentNode.insertBefore(wrapperDiv, contentDiv);
                     wrapperDiv.appendChild(contentDiv);
-                    // Appending the overlay div to the wrapper div
                     wrapperDiv.appendChild(overlayDiv);
-                    // Now the content and the overlay are wrapped inside the wrapperDiv with relative positioning
                 }
             }
         } else {
             let fullPageOverlay = this.generateFullPageOverlay();
-            document.body.insertAdjacentHTML('beforeend', fullPageOverlay);
+            document.body.appendChild(  fullPageOverlay);
         }
     },
     unblock: function (target) {
@@ -67,27 +88,21 @@ var blockerscb = {
         }
     },
     prepareTargetOverlay: function () {
-        // Create the overlay div
-        var overlayDiv = document.createElement('div');
-      /*  overlayDiv.id = 'OverlayBlocker';*/
-        overlayDiv.className = 'blockOverlay';
-        overlayDiv.style.position = 'absolute'; // Use fixed positioning to cover the entire viewport
+        let overlayDiv = document.createElement('div');
+        overlayDiv.className = 'blockOverlay rounded';
+        overlayDiv.style.position = 'absolute';
         overlayDiv.style.top = '0';
         overlayDiv.style.left = '0';
         overlayDiv.style.right = '0';
         overlayDiv.style.bottom = '0';
-        overlayDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.3)'; // Semi-transparent black
+        overlayDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
         overlayDiv.style.color = 'white';
         overlayDiv.style.display = 'flex';
         overlayDiv.style.justifyContent = 'center';
         overlayDiv.style.alignItems = 'center';
-        overlayDiv.style.zIndex = '1000'; // High z-index to ensure it's above other content
-        overlayDiv.innerText = 'Loading...'; // Text to display in the overlay
-        let spinnerWithLoadingText = '<div class="spinner-border ms-auto text-info align-middle" role="status" aria-hidden="true"></div>' +
-            '<span class="mx-auto my-auto">' + ' Loading...' + '</span>';
-        let blockMsg = '<div class="blockMsg bg-light p-3 rounded ">' + spinnerWithLoadingText + '</div>';
-        overlayDiv.innerHTML = blockMsg;
-
+        overlayDiv.style.zIndex = '1000';
+        let blockMsg = this.generateBlockMsg();
+        overlayDiv.appendChild(blockMsg);
         return overlayDiv;
     }
 }

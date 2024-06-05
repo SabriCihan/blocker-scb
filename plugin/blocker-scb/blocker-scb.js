@@ -10,7 +10,7 @@ var blockerscb = {
         blockMsg.style.maxWidth = "150px";
 
         const spinnerDiv = document.createElement('div');
-        spinnerDiv.classList.add('spinner-border', 'ms-auto', 'text-info', 'align-middle','me-2');
+        spinnerDiv.classList.add('spinner-border', 'ms-auto', 'text-info', 'align-middle', 'me-2');
         spinnerDiv.setAttribute('role', 'status');
         spinnerDiv.setAttribute('aria-hidden', 'true');
 
@@ -46,16 +46,16 @@ var blockerscb = {
             let elements = document.querySelectorAll(target);
             for (i = 0; i < elements.length; ++i) {
                 let position = getComputedStyle(elements[i]).position;
+                let overlayDiv = blockerscb.prepareTargetOverlay();
+                overlayDiv.dataset.for = target;
                 if (position == "relative") {
-                    elements[i].insertAdjacentHTML('beforeend', fullPageOverlay);
+                    elements[i].appendChild(overlayDiv);
                 } else if (position == "static" && isTargetExist) {
-                    var wrapperDiv = document.createElement('div');
+                    let wrapperDiv = document.createElement('div');
                     wrapperDiv.style.position = 'relative';
                     wrapperDiv.dataset.iamwrapperfor = target;
-                    var contentDiv = elements[i];
+                    let contentDiv = elements[i];
 
-                    var overlayDiv = blockerscb.prepareTargetOverlay();
-                    overlayDiv.dataset.for = target;
                     // I am wrapping the content div with the new wrapper div
                     contentDiv.parentNode.insertBefore(wrapperDiv, contentDiv);
                     wrapperDiv.appendChild(contentDiv);
@@ -64,7 +64,7 @@ var blockerscb = {
             }
         } else {
             let fullPageOverlay = this.generateFullPageOverlay();
-            document.body.appendChild(  fullPageOverlay);
+            document.body.appendChild(fullPageOverlay);
         }
     },
     unblock: function (target) {
@@ -80,7 +80,7 @@ var blockerscb = {
         let wrapperElements = document.querySelectorAll('[data-iamwrapperfor="' + target + '"]');
         if (wrapperElements) {
             wrapperElements.forEach(el => {
-                    var contents = el.childNodes;
+                var contents = el.childNodes;
                 var parent = el.parentNode;
                 while (contents.length > 0) {
                     parent.insertBefore(contents[0], el);
@@ -88,7 +88,7 @@ var blockerscb = {
                 parent.removeChild(el);
             });
         }
-      
+
     },
     prepareTargetOverlay: function () {
         let overlayDiv = document.createElement('div');

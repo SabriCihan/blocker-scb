@@ -51,7 +51,7 @@ var blockerscb = {
                 } else if (position == "static" && isTargetExist) {
                     var wrapperDiv = document.createElement('div');
                     wrapperDiv.style.position = 'relative';
-                    wrapperDiv.dataset.for = target;
+                    wrapperDiv.dataset.iamwrapperfor = target;
                     var contentDiv = elements[i];
 
                     var overlayDiv = blockerscb.prepareTargetOverlay();
@@ -70,22 +70,25 @@ var blockerscb = {
     unblock: function (target) {
         if (target == null)
             target = "body";
-        if (target) {
-            let elements = document.querySelectorAll('[data-for="' + target + '"]');
-            if (elements) {
-                elements.forEach(el => {
-                    el.remove();
-                });
-            }
-        } else {
-            let element = document.getElementsByTagName("body");
-            let overlays = element[0].querySelectorAll(".blockOverlay");
-            if (overlays) {
-                overlays.forEach(el => {
-                    el.remove();
-                });
-            }
+
+        let elements = document.querySelectorAll('[data-for="' + target + '"]');
+        if (elements) {
+            elements.forEach(el => {
+                el.remove();
+            });
         }
+        let wrapperElements = document.querySelectorAll('[data-iamwrapperfor="' + target + '"]');
+        if (wrapperElements) {
+            wrapperElements.forEach(el => {
+                    var contents = el.childNodes;
+                var parent = el.parentNode;
+                while (contents.length > 0) {
+                    parent.insertBefore(contents[0], el);
+                }
+                parent.removeChild(el);
+            });
+        }
+      
     },
     prepareTargetOverlay: function () {
         let overlayDiv = document.createElement('div');

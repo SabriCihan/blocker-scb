@@ -103,7 +103,8 @@ var blockerscb = {
         overlayDiv.style.display = 'flex';
         overlayDiv.style.justifyContent = 'center';
         overlayDiv.style.alignItems = 'center';
-        overlayDiv.style.zIndex = '1000';
+        overlayDiv.style.zIndex = '1100';
+        overlayDiv.style.cursor = 'wait';
         let blockMsg = this.generateBlockMsg();
         overlayDiv.appendChild(blockMsg);
         return overlayDiv;

@@ -3,9 +3,8 @@
 
 <p><b>To install:</b></p>
 1. Import bootstrap.min.css <br>
-2. Import blocker-scb.css<br>
-3. Import bootstrap.bundle.min.js<br>
-4. Import blocker-scb.js<br>
+2. Import bootstrap.bundle.min.js<br>
+3. Import blockerscb.js<br>
 <br>
 <p><b>a. To block and unblock  a div of form by id (javascript code) : </b></p>
 <pre><code>blockerscb.block("#FormLoginTest");

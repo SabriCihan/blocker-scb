@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\plugin",
-    "\\plugin\\blocker-scb",
-    "\\plugin\\bootstrap\\css"
+    "\\plugin"
   ],
-  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

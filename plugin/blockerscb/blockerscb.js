@@ -1,4 +1,13 @@
-var blockerscb = {
+const blockerscb = {
+    getLoadingText: () => {
+        let loadingText = "Loading...";
+        var inputElement = document.getElementById('Loading');
+        if (inputElement && inputElement.getAttribute('data-translation') === 'true') {
+            loadingText = inputElement.value + "..."
+        }
+        return loadingText;
+    },
+
     generateBlockMsg: function () {
         let blockMsg = document.createElement('div');
         blockMsg.className = 'blockMsg bg-light p-3 rounded';
@@ -16,11 +25,14 @@ var blockerscb = {
 
         const textSpan = document.createElement('span');
         textSpan.classList.add('mx-auto', 'my-auto');
-        textSpan.textContent = 'Loading...';
+        textSpan.textContent = this.getLoadingText();
+
         blockMsg.appendChild(spinnerDiv);
         blockMsg.appendChild(textSpan);
+
         return blockMsg;
     },
+
     generateFullPageOverlay: function () {
         var blockMsg = this.generateBlockMsg();
         const overlayDiv = document.createElement('div');
@@ -38,25 +50,91 @@ var blockerscb = {
         overlayDiv.style.backgroundColor = 'rgba(185, 185, 185, 0.4)';
         overlayDiv.style.cursor = 'wait';
         overlayDiv.appendChild(blockMsg);
+
         return overlayDiv;
     },
+
+    // Store original button content for restoration
+    storeOriginalButtonContent: function (button) {
+        if (!button.dataset.originalContent) {
+            button.dataset.originalContent = button.innerHTML;
+            button.dataset.originalWidth = button.offsetWidth + 'px';
+            button.dataset.originalHeight = button.offsetHeight + 'px';
+        }
+    },
+
+    // Replace button content with spinner
+    replaceButtonWithSpinner: function (button) {
+        this.storeOriginalButtonContent(button);
+        button.innerHTML = '';
+        // Create spinner
+        const spinner = document.createElement('span');
+        spinner.className = 'spinner-border spinner-border-sm';
+        spinner.setAttribute('role', 'status');
+        spinner.setAttribute('aria-hidden', 'true');
+
+        // Replace button content
+        button.appendChild(spinner);
+        /*button.appendChild(document.createTextNode(' Loading...'));*/
+
+        // Add loading text if needed
+        const loadingText = this.getLoadingText();
+        if (loadingText) {
+            const textSpan = document.createElement('span');
+            textSpan.className = 'ms-2';
+            textSpan.textContent = loadingText;
+            button.appendChild(textSpan);
+        }
+
+        // Maintain button dimensions to prevent layout shift
+        button.style.minWidth = button.dataset.originalWidth;
+        button.style.minHeight = button.dataset.originalHeight;
+
+        // Disable the button
+        button.disabled = true;
+        button.style.pointerEvents = 'none';
+        button.dataset.wasBlocked = 'true';
+    },
+
+    // Restore original button content
+    restoreButtonContent: function (button) {
+        if (button.dataset.originalContent) {
+            button.innerHTML = button.dataset.originalContent;
+            button.style.minWidth = '';
+            button.style.minHeight = '';
+            button.disabled = false;
+            button.style.pointerEvents = '';
+            delete button.dataset.originalContent;
+            delete button.dataset.originalWidth;
+            delete button.dataset.originalHeight;
+            delete button.dataset.wasBlocked;
+        }
+    },
+
     block: function (target) {
-        let isTargetExist = target != null;
-        if (isTargetExist) {
+        if (target) {
             let elements = document.querySelectorAll(target);
-            for (i = 0; i < elements.length; ++i) {
-                let position = getComputedStyle(elements[i]).position;
-                let overlayDiv = blockerscb.prepareTargetOverlay();
+            for (let i = 0; i < elements.length; ++i) {
+                const element = elements[i];
+
+                // Check if element is a button
+                if (element.tagName === 'BUTTON' || element.type === 'button' ) {
+                    this.replaceButtonWithSpinner(element);
+                    continue;
+                }
+
+                let position = getComputedStyle(element).position;
+                let overlayDiv = this.prepareTargetOverlay();
                 overlayDiv.dataset.for = target;
-                if (position == "relative") {
-                    elements[i].appendChild(overlayDiv);
-                } else if (position == "static" && isTargetExist) {
+
+                if (position === "relative") {
+                    element.appendChild(overlayDiv);
+                } else if (position === "static") {
                     let wrapperDiv = document.createElement('div');
                     wrapperDiv.style.position = 'relative';
                     wrapperDiv.dataset.iamwrapperfor = target;
-                    let contentDiv = elements[i];
 
-                    // I am wrapping the content div with the new wrapper div
+                    let contentDiv = element;
                     contentDiv.parentNode.insertBefore(wrapperDiv, contentDiv);
                     wrapperDiv.appendChild(contentDiv);
                     wrapperDiv.appendChild(overlayDiv);
@@ -67,29 +145,34 @@ var blockerscb = {
             document.body.appendChild(fullPageOverlay);
         }
     },
+
     unblock: function (target) {
-        if (target == null)
-            target = "body";
+        if (!target) target = "body";
 
-        let elements = document.querySelectorAll('[data-for="' + target + '"]');
-        if (elements) {
-            elements.forEach(el => {
-                el.remove();
-            });
-        }
-        let wrapperElements = document.querySelectorAll('[data-iamwrapperfor="' + target + '"]');
-        if (wrapperElements) {
-            wrapperElements.forEach(el => {
-                var contents = el.childNodes;
-                var parent = el.parentNode;
-                while (contents.length > 0) {
-                    parent.insertBefore(contents[0], el);
+        // Restore blocked buttons first
+        if (target !== "body") {
+            let buttons = document.querySelectorAll(target);
+            buttons.forEach(button => {
+                if (button.dataset.wasBlocked === 'true') {
+                    this.restoreButtonContent(button);
                 }
-                parent.removeChild(el);
             });
         }
 
+        // Remove overlays
+        let elements = document.querySelectorAll('[data-for="' + target + '"]');
+        elements.forEach(el => el.remove());
+
+        // Remove wrappers
+        let wrapperElements = document.querySelectorAll('[data-iamwrapperfor="' + target + '"]');
+        wrapperElements.forEach(el => {
+            while (el.firstChild) {
+                el.parentNode.insertBefore(el.firstChild, el);
+            }
+            el.remove();
+        });
     },
+
     prepareTargetOverlay: function () {
         let overlayDiv = document.createElement('div');
         overlayDiv.className = 'blockOverlay rounded';
@@ -105,8 +188,10 @@ var blockerscb = {
         overlayDiv.style.alignItems = 'center';
         overlayDiv.style.zIndex = '1100';
         overlayDiv.style.cursor = 'wait';
+
         let blockMsg = this.generateBlockMsg();
         overlayDiv.appendChild(blockMsg);
+
         return overlayDiv;
     }
-}
+};
